@@ -1,0 +1,45 @@
+library(readr)
+library(dplyr)
+library(ggplot2)
+str(output)
+summary(output)
+
+head(output)
+
+# Check for missing values
+colSums(is.na(output))
+
+# Visualize the distribution of each numeric variable
+numeric_vars <- sapply(output, is.numeric)
+output.numeric<- output[, numeric_vars]
+
+# Handle missing values (e.g., by removing rows with missing values)
+cleaned_data <- na.omit(output)
+
+# Ensure Season is a categorical variable (replace 'Season' with the actual column name)
+output$Number<- as.factor(output$Number)
+
+# boxplot
+ggplot(output, aes(x =Anaemic, y =Sex)) +
+  geom_boxplot(fill = "orange", color = "black") +
+  theme_minimal() +
+  labs(title = "Boxplot of Humidity by Season", x= "anemia", y= "sex")
+
+# Histogram for a numeric variable (replace 'temp' with an appropriate column name)
+ggplot(output, aes(x = X.Red.Pixel)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  theme_minimal() +
+  labs(title = "Histogram of Temperature", x = "x.red pixel", y = "sex")
+
+#Scatter plot to show the relationship between two numeric variables (replace 'temp' and 'humidity' with appropriate column names)
+ggplot(output, aes(x = X.Red.Pixel, y = Sex)) +
+  geom_point(color = "red") +
+  theme_minimal() +
+  labs(title = "Scatter Plot ", x = "x.red pixels", y = "sex")
+
+# Time series plot for a variable over time (replace 'date' and 'temp' with appropriate column names)
+ggplot(output, aes(x = X.Blue.pixel , y = Number)) +
+  geom_line(color = "green") +
+  theme_minimal() +
+  labs(title = "Time Series ", x = "x. blue pixels", y = "number")
+
